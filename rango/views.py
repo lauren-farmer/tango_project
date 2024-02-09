@@ -24,7 +24,7 @@ def about(request):
     context_dict = {}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-    return render(request, 'rango/about.html')
+    return render(request, 'rango/about.html', context=context_dict)
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -152,7 +152,7 @@ def visitor_cookie_handler(request):
 
     if (datetime.now() - last_visit_time).days>0: 
         visits = visits + 1 
-        request.session('last_visit', str(datetime.now()))
+        request.session['last_visit'] = str(datetime.now())
     else:
         request.session['last_visit'] = last_visit_cookie
-    response.set_cookie['visits'] = visits   
+    request.session['visits'] = visits   
