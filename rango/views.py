@@ -1,11 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from rango.forms import CategoryForm
-from rango.forms import PageForm
-from rango.models import Category
-from rango.models import Page
+from rango.forms import CategoryForm, PageForm
+from rango.models import Category, Page
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
@@ -46,7 +43,7 @@ def add_category(request):
             print(form.errors)
     return render(request, 'rango/add_category.html', {'form':form})
 
-def add_page(request):
+def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
